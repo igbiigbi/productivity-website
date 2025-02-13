@@ -1,0 +1,22 @@
+{
+  "name": "productivity-website",
+  "version": "1.0.0",
+  "description": "A website to help users increase their productivity by focusing on selected subtopics with a timer.",
+  "main": "src/scripts/app.js",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build step not defined yet.'"
+  },
+  "keywords": [
+    "productivity",
+    "timer",
+    "focus",
+    "subtopics"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}

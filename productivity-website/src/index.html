@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Timer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <button id="menuButton" class="menu-button">
+        <span class="menu-icon"></span>
+    </button>
+
+    <div class="side-menu">
+        <div class="side-menu-content">
+            <button class="menu-section-button" data-window="settings">
+                Settings
+            </button>
+            <button class="menu-section-button" data-window="statistics">
+                Statistics
+            </button>
+            <button class="theme-toggle-button">
+                Toggle Dark Mode
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Options Windows -->
+    <div class="overlay"></div>
+
+    <!-- Main Settings Window -->
+    <div class="options-window" id="settingsOptions">
+        <div class="options-header">
+            <h3>Settings</h3>
+            <button class="close-options">×</button>
+        </div>
+        <div class="options-content">
+            <button class="option-item" data-window="sound">Sound Settings</button>
+        </div>
+    </div>
+
+    <!-- Statistics Window -->
+    <div class="options-window" id="statisticsOptions">
+        <div class="options-header">
+            <h3>Statistics</h3>
+            <button class="close-options">×</button>
+        </div>
+        <div class="options-content">
+            <div class="stat-item">Total Sessions: <span id="totalSessions">0</span></div>
+            <div class="stat-item">Total Time: <span id="totalTime">0h 0m</span></div>
+            <div class="stat-item">Daily Streak: <span id="dailyStreak">0</span></div>
+            <div class="stat-item">Most Used: <span id="mostUsed">-</span></div>
+            
+            <h4>Category Breakdown</h4>
+            <div id="categoryStats" class="category-stats"></div>
+            
+            <button id="resetStats" class="settings-button">Reset Statistics</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Productivity Timer</h1>
+        
+        <div class="categories">
+            <select id="categoryDropdown">
+                <option value="" disabled selected>Select Category</option>
+                <option value="Sport">Sport</option>
+                <option value="Education">Education</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Family">Family</option>
+                <option value="Work">Work</option>
+                <option value="Creativity">Creativity</option>
+                <option value="Finance">Finance</option>
+                <option value="Health">Health</option>
+            </select>
+        </div>
+
+        <div id="soundOptions" class="options-window">
+            <div class="options-header">
+                <h3>Sound Settings</h3>
+                <button class="close-options">×</button>
+            </div>
+            <div class="options-content">
+                <div class="settings-section">
+                    <button id="soundToggleBtn" class="settings-toggle-btn">
+                        <span class="toggle-status">Sound: ON</span>
+                    </button>
+                    
+                    <div class="setting-item">
+                        <label for="volumeControl">Volume</label>
+                        <input type="range" id="volumeControl" min="0" max="100" value="50">
+                        <span class="volume-value">50%</span>
+                    </div>
+        
+                    <div class="setting-item">
+                        <label for="soundSelect">Sound Type</label>
+                        <select id="soundSelect">
+                            <option value="bell">Bell</option>
+                            <option value="digital">Digital</option>
+                            <option value="chime">Chime</option>
+                            <option value="soft">Soft</option>
+                        </select>
+                    </div>
+        
+                    <!-- Add test sound button -->
+                    <button id="testSound" class="settings-button">Test Sound</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="timer-container">
+            <div class="time-controls-left">
+                <button id="decrease300" class="large-button" data-tooltip="Decrease by 5 minutes">-</button>
+                <button id="decrease60" class="medium-button" data-tooltip="Decrease by 1 minute">-</button>
+                <button id="decrease30" class="small-button" data-tooltip="Decrease by 30 seconds">-</button>
+            </div>
+
+            <div class="timer">
+                <span id="time">00:00</span>
+            </div>
+
+            <div class="time-controls-right">
+                <button id="increase300" class="large-button" data-tooltip="Add 5 minutes">+</button>
+                <button id="increase60" class="medium-button" data-tooltip="Add 1 minute">+</button>
+                <button id="increase30" class="small-button" data-tooltip="Add 30 seconds">+</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="start">Start</button>
+            <button id="reset">Reset</button>
+        </div>
+
+        <input type="number" id="hiddenInput" placeholder="Enter minutes" min="0">
+    </div>
+
+    <audio id="endSound" src="sounds/bell.mp3"></audio>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

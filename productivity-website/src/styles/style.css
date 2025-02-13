@@ -1,0 +1,724 @@
+:root {
+    --timer-bg: rgba(0, 77, 64, 0.1);
+    --timer-color: #004d40;
+    --button-color: #004d40;
+    --bg-gradient: linear-gradient(135deg, #b3e5fc 0%, #e1f5fe 100%);
+    --container-bg: rgba(255, 255, 255, 0.9);
+    --text-color: #004d40;
+    --input-bg: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] {
+    --timer-bg: rgba(0, 77, 64, 0.2);
+    --timer-color: #4db6ac;
+    --button-color: #4db6ac;
+    --bg-gradient: linear-gradient(135deg, #263238 0%, #37474F 100%);
+    --container-bg: rgba(55, 71, 79, 0.9);
+    --text-color: #e0f2f1;
+    --input-bg: rgba(38, 50, 56, 0.9);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: var(--bg-gradient);
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--container-bg);
+    padding: 40px 40px 80px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80vw;
+    max-width: 800px;
+    min-height: 600px;
+    height: auto;
+    max-height: 90vh;
+}
+
+h1 {
+    font-size: 64px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.categories {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.categories select {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border: 2px solid var(--button-color);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    transition: all 0.3s ease;
+}
+
+.categories select:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: var(--input-bg);
+    border-color: var(--button-color);
+}
+
+.categories select:hover {
+    border-color: var(--button-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timer-container {
+    margin-top: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 25px;
+}
+
+.timer {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 56px;
+    font-weight: bold;
+    background: var(--timer-bg);
+    border-radius: 50%;
+    overflow: visible;
+    margin: 35px;
+}
+
+.progress-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.progress-ring.visible {
+    opacity: 1;
+}
+
+.progress-ring__circle {
+    fill: none;
+    stroke: var(--button-color);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.35s;
+}
+
+
+.progress-ring.visible .progress-ring__circle {
+    stroke-dasharray: 785.4 785.4; /* Final state: full stroke visible */
+}
+
+.timer #time {
+    color: var(--text-color);
+    position: relative;
+    z-index: 2;
+}
+
+.time-controls-left,
+.time-controls-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-controls-left {
+    margin-right: 40px;
+}
+
+.time-controls-right {
+    margin-left: 40px;
+}
+
+.time-controls-left button,
+.time-controls-right button {
+    margin: 15px 0;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.controls button {
+    padding: 15px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 5px;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Light theme hover effects */
+button:hover,
+.settings-toggle-btn:hover,
+.menu-section-button:hover,
+.option-item:hover {
+    filter: brightness(1.1); /* Makes buttons lighter in light mode */
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+/* Dark theme hover effects */
+[data-theme="dark"] button:hover,
+[data-theme="dark"] .settings-toggle-btn:hover,
+[data-theme="dark"] .menu-section-button:hover,
+[data-theme="dark"] .option-item:hover {
+    filter: brightness(0.8); /* Makes buttons darker in dark mode */
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+/* Keep the existing disabled state styles */
+button:disabled:hover,
+.settings-toggle-btn:disabled:hover,
+.menu-section-button:disabled:hover,
+.option-item:disabled:hover {
+    filter: none;
+    transform: none;
+}
+
+.small-button {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.medium-button {
+    font-size: 18px;
+    padding: 10px 15px;
+}
+
+.large-button {
+    font-size: 22px;
+    padding: 15px 20px;
+}
+
+/* Menu Button */
+.menu-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--button-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.menu-icon {
+    position: relative;
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: all 0.3s ease;
+    left: 0;
+}
+
+.menu-icon::before {
+    top: -6px;
+}
+
+.menu-icon::after {
+    top: 6px;
+}
+
+.menu-button.active .menu-icon {
+    background: transparent;
+}
+
+.menu-button.active .menu-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.menu-button.active .menu-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+/* Side Menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: var(--container-bg);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 999;
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+.side-menu-content {
+    padding: 80px 20px 20px 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Menu Section Buttons */
+.menu-section-button {
+    width: 100%;
+    padding: 15px;
+    background: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    padding: 15px;
+    background: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Options Window */
+.options-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: var(--container-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.options-window .settings-section {
+    margin: 0;
+    background: var(--timer-bg);
+}
+
+.options-window .setting-item {
+    padding: 12px 0;
+}
+
+.options-window.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.options-header {
+    padding: 15px;
+    background: var(--button-color);
+    color: white;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-options {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.options-content {
+    padding: 20px;
+}
+
+.option-item {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    background: var(--input-bg);
+    border: 1px solid var(--button-color);
+    border-radius: 5px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.settings-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--button-color);
+}
+
+.settings-option:last-child {
+    border-bottom: none;
+}
+
+.settings-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.settings-option label {
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.setting-item label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.setting-item input[type="range"] {
+    width: 100%;
+    height: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--button-color);
+    border-radius: 5px;
+    outline: none;
+}
+
+.setting-item input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--button-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.setting-item select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-value {
+    font-size: 0.8rem;
+    color: var(--text-color);
+    text-align: right;
+}
+
+.settings-section h4 {
+    margin: 0 0 16px 0;
+    color: var(--text-color);
+    font-size: 18px;
+}
+
+.settings-button {
+    padding: 8px 16px;
+    background-color: var(--button-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.settings-button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.setting-item label {
+    color: var(--text-color);
+    margin-right: 16px;
+}
+
+.setting-item input[type="number"],
+.setting-item input[type="range"],
+.setting-item select {
+    width: 100px;
+    padding: 8px;
+    border: 1px solid var(--button-color);
+    border-radius: 4px;
+    background: var(--input-bg);
+    color: var(--text-color);
+}
+
+.setting-item input[type="range"] {
+    width: 150px;
+}
+
+.settings-toggle-btn {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 12px;
+    text-align: left;
+    background: var(--input-bg);
+    border: 1px solid var(--button-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.settings-toggle-btn.enabled {
+    background: var(--button-color);
+    color: white;
+}
+
+.settings-toggle-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.stat-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--button-color);
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-color);
+}
+
+.category-stats {
+    margin-top: 12px;
+}
+
+.category-stat {
+    padding: 8px;
+    margin: 4px 0;
+    background: var(--timer-bg);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.category-name {
+    font-weight: 600;
+}
+
+.category-details {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+#hiddenInput {
+    padding: 12px;
+    font-size: 18px;
+    width: 200px;
+    text-align: center;
+    border: 2px solid var(--button-color);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+@keyframes shake-centered {
+    0%, 100% { transform: translateX(-50%); }
+    25% { transform: translateX(-50%) translateX(-5px); }
+    50% { transform: translateX(-50%) translateX(5px); }
+    75% { transform: translateX(-50%) translateX(-5px); }
+}
+
+@keyframes glow-red {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        border-color: rgba(255, 0, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        border-color: rgba(255, 0, 0, 1);
+    }
+}
+
+.shake-red {
+    animation: shake 0.5s ease-in-out, glow-red 0.5s ease-in-out;
+}
+
+.categories select.shake-red {
+    animation: shake 0.5s ease-in-out, glow-red 0.5s ease-in-out;
+}
+
+#hiddenInput.shake-red {
+    animation: shake-centered 0.5s ease-in-out, glow-red 0.5s ease-in-out;
+}
+
+.time-controls-left button.shake-red,
+.time-controls-right button.shake-red {
+    animation: shake 0.5s ease-in-out, glow-red 0.5s ease-in-out;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 30px 70px 30px;
+        min-height: 500px;
+    }
+
+    h1 { 
+        font-size: 48px; 
+    }
+
+    .timer-container {
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .timer {
+        width: 220px;
+        height: 220px;
+        font-size: 48px;
+        margin: 30px;
+    }
+
+    .side-menu {
+        width: 260px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 20px 60px 20px;
+        min-height: 400px;
+    }
+
+    h1 { 
+        font-size: 36px; 
+    }
+
+    .timer-container {
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .timer {
+        width: 180px;
+        height: 180px;
+        font-size: 36px;
+        margin: 25px;
+    }
+
+    .side-menu {
+        width: 240px;
+    }
+}
