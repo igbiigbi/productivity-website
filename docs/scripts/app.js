@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sessionCount = 0;
     let progressRing = null;
     let progressCircle = null;
-    const radius = 125;
+    const radius = 120;
     const circumference = radius * 2 * Math.PI;
 
     // Category Colors
@@ -236,8 +236,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 startButton.textContent = 'Start';
                 categoryDropdown.disabled = false;
                 
-                if (settings.sound) {
-                    endSound.play();
+                // Updated sound handling
+                if (settings.sound && endSound) {
+                    try {
+                        endSound.src = `sounds/${settings.soundType}.mp3`; // Ensure correct sound is loaded
+                        endSound.currentTime = 0;
+                        endSound.volume = settings.volume / 100;
+                        const playPromise = endSound.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.error('Sound play failed:', error);
+                                // Fallback to bell sound if other sound fails
+                                endSound.src = 'sounds/bell.mp3';
+                                endSound.play().catch(e => console.error('Fallback sound failed:', e));
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Sound error:', error);
+                    }
                 }
                 
                 updateStatistics();
@@ -292,6 +309,11 @@ document.addEventListener('DOMContentLoaded', () => {
             totalTime = timeRemaining;
             updateTimerDisplay();
         }
+    }
+
+    if (endSound) {
+        endSound.load(); // Preload the sound
+        endSound.volume = settings.volume / 100;
     }
 
     // UI Update Functions
@@ -413,7 +435,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (soundSelect) {
         soundSelect.addEventListener('change', () => {
             settings.soundType = soundSelect.value;
-            endSound.src = `sounds/${settings.soundType}.mp3`;
+            // Update the endSound source immediately
+            if (endSound) {
+                endSound.src = `sounds/${settings.soundType}.mp3`;
+                // Preload the new sound
+                endSound.load();
+            }
             localStorage.setItem('timerSettings', JSON.stringify(settings));
         });
     }
