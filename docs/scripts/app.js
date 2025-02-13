@@ -475,13 +475,14 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.classList.toggle('active');
         };
     
-        // Options items
-        optionItems.forEach(item => {
-            item.onclick = (e) => {
+        // Menu section buttons (Settings and Statistics)
+        menuButtons.forEach(button => {
+            button.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                const windowId = item.dataset.window + 'Options';
+                const windowId = button.dataset.window + 'Options';
                 const optionsWindow = document.getElementById(windowId);
+                console.log('Clicking menu button:', windowId); // Debug log
                 if (optionsWindow) {
                     optionsWindows.forEach(window => window.classList.remove('active'));
                     optionsWindow.classList.add('active');
