@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const optionsWindows = document.querySelectorAll('.options-window');
     const menuButtons = document.querySelectorAll('.menu-section-button');
     const closeButtons = document.querySelectorAll('.close-options');
-    const optionItems = document.querySelectorAll('.option-item');
     const testSound = document.getElementById('testSound');
     const volumeValue = document.querySelector('.volume-value');
     const totalSessionsDisplay = document.getElementById('totalSessions');
@@ -38,12 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const soundSelect = document.getElementById('soundSelect');
 
     // Settings & Statistics
-    let settings = {
-        sound: true,
-        volume: 50,
-        soundType: 'bell',
-        defaultTime: 25
-    };
+let settings = {
+    sound: true,
+    volume: 50,
+    soundType: 'bell',
+    ...JSON.parse(localStorage.getItem('timerSettings') || '{}')
+};
 
     // Load saved settings and statistics
     const savedSettings = localStorage.getItem('timerSettings');
@@ -337,10 +336,19 @@ document.addEventListener('DOMContentLoaded', () => {
             soundToggleBtn.querySelector('.toggle-status').textContent = 
                 `Sound: ${settings.sound ? 'ON' : 'OFF'}`;
         }
-        if (volumeControl) volumeControl.value = settings.volume;
-        if (soundSelect) soundSelect.value = settings.soundType;
-        if (endSound) endSound.volume = settings.volume / 100;
-        volumeValue.textContent = `${settings.volume}%`;
+        
+        if (volumeControl) {
+            volumeControl.value = settings.volume;
+            volumeValue.textContent = `${settings.volume}%`;
+        }
+        
+        if (soundSelect) {
+            soundSelect.value = settings.soundType;
+        }
+        
+        if (endSound) {
+            endSound.volume = settings.volume / 100;
+        }
     }
 
     function updateStatisticsDisplay() {
@@ -426,18 +434,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (soundToggleBtn) {
         soundToggleBtn.addEventListener('click', () => {
             settings.sound = !settings.sound;
-            localStorage.setItem('timerSettings', JSON.stringify(settings));
             updateSettingsUI();
+            localStorage.setItem('timerSettings', JSON.stringify(settings));
+            
+            // Test sound when enabling
+            if (settings.sound) {
+                const testAudio = new Audio(`sounds/${settings.soundType}.mp3`);
+                testAudio.volume = settings.volume / 100;
+                testAudio.play().catch(e => console.error('Test sound failed:', e));
+            }
         });
     }
 
     if (volumeControl) {
         volumeControl.addEventListener('input', () => {
             settings.volume = volumeControl.value;
+            volumeValue.textContent = `${settings.volume}%`;
+            if (endSound) {
+                endSound.volume = settings.volume / 100;
+            }
             localStorage.setItem('timerSettings', JSON.stringify(settings));
-            updateSettingsUI();
         });
     }
+    
 
     if (soundSelect) {
         soundSelect.addEventListener('change', () => {
