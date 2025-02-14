@@ -4,27 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#004d40">
-    <head>
-        <!-- Existing meta tags -->
-        <link rel="manifest" href="manifest.json">
-        
-        <!-- Add these lines for iOS support -->
-        <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
-        <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
-        
-        <!-- Add this for Windows tiles -->
-        <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
-        <meta name="msapplication-TileColor" content="#004d40">
-        
-        <!-- Add favicon -->
-        <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
-    </head>
+    <!-- Remove duplicate head tag -->
+    <!-- Existing meta tags -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Update iOS icon paths -->
+    <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="./icons/icon-167x167.png">
+    
+    <!-- Update Windows tile path -->
+    <meta name="msapplication-TileImage" content="./icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#004d40">
+    
+    <!-- Update favicon paths -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/icon-16x16.png">
+    
     <title>Productivity Timer</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
     <button id="menuButton" class="menu-button">
@@ -146,12 +146,13 @@
         <input type="number" id="hiddenInput" placeholder="Enter minutes" min="0">
     </div>
 
-    <audio id="endSound" src="sounds/bell.mp3" preload="auto"></audio>
+    <audio id="endSound" src="./sounds/bell.mp3" preload="auto"></audio>
     <script src="scripts/app.js"></script>
+    <script src="./scripts/app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registered:', registration);
                     })
