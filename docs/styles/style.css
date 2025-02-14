@@ -117,8 +117,7 @@ h1 {
     height: 100%;
     transform: rotate(-90deg);
     opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 1;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .progress-ring.visible {
@@ -128,11 +127,10 @@ h1 {
 .progress-ring__circle {
     fill: none;
     stroke: var(--button-color);
-    stroke-width: 8;
+    stroke-width: 7;
     stroke-linecap: round;
-    transition: stroke-dashoffset 0.35s;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 
 .progress-ring.visible .progress-ring__circle {
     stroke-dasharray: 785.4 785.4; /* Final state: full stroke visible */

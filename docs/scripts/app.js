@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             progressRing = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             progressRing.setAttribute('class', 'progress-ring');
             progressRing.setAttribute('viewBox', '0 0 250 250');
-
+    
             progressCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             progressCircle.setAttribute('class', 'progress-ring__circle');
             progressCircle.setAttribute('r', radius);
@@ -156,29 +156,36 @@ document.addEventListener('DOMContentLoaded', () => {
             progressRing.appendChild(progressCircle);
             document.querySelector('.timer').insertBefore(progressRing, timerDisplay);
             
-            progressRing.offsetHeight;
-            progressRing.classList.add('visible');
+            // Force reflow to ensure smooth animation
+            progressRing.getBoundingClientRect();
+            
+            // Add visible class after a short delay for smooth fade in
+            requestAnimationFrame(() => {
+                progressRing.classList.add('visible');
+            });
         }
         setProgress((timeRemaining / totalTime) * 100);
+    }
+    
+
+    function setProgress(percent) {
+        if (progressCircle) {
+            const offset = circumference - (percent / 100 * circumference);
+            progressCircle.style.strokeDashoffset = offset;
+        }
     }
 
     function removeProgressRing() {
         if (progressRing) {
             progressRing.classList.remove('visible');
+            // Increased timeout to match the new transition duration
             setTimeout(() => {
                 if (progressRing && progressRing.parentNode) {
                     progressRing.remove();
                     progressRing = null;
                     progressCircle = null;
                 }
-            }, 400);
-        }
-    }
-
-    function setProgress(percent) {
-        if (progressCircle) {
-            const offset = circumference - (percent / 100 * circumference);
-            progressCircle.style.strokeDashoffset = offset;
+            }, 600); // Match this with the CSS transition duration
         }
     }
 
